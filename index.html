@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="content/css/site.css">
+    <script src="./content/js/jquery/dist/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="hidden" id="cartaVirada" />
+    <div class="areaCentral" id="areaCentral">
+
+    </div>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var cards = $(".carta");
+        for (var i = 0; i < cards.length; i++) {
+            var target = Math.floor(Math.random() * cards.length - 1) + 1;
+            var target2 = Math.floor(Math.random() * cards.length - 1) + 1;
+            cards.eq(target).before(cards.eq(target2));
+        }
+    });
+
+    var cont = 1;
+    for (var i = 1; i <= 14; i++) {
+        $('#areaCentral').append(`<div data-id=${cont} id="${i}"class="carta" style="background-image: url(./content/images/question.svg);background-size: 150px 180px;"></div>`);
+        if (i % 2 == 0) {
+            cont = cont + 1;
+        }
+    };
+    function sortDivs() {
+        var toSort = document.getElementById('areaCentral').children;
+        toSort = Array.prototype.slice.call(toSort, 0);
+        toSort.sort(function (a, b) {
+            var aord = +a.id.split('-')[1];
+            var bord = +b.id.split('-')[1];
+            return aord - bord;
+        });
+    }
+
+    $(".carta").on("click", function () {
+        var id = $(this).attr('data-id');
+        if ($(this).hasClass("virada")) {
+            $(this).removeClass('virada');
+            $(this).css('background-image', 'url(./content/images/question.svg)');
+            $("#cartaVirada").val("");
+        }
+        else {
+            $(this).addClass('virada');
+            $(this).css('background-image', `url(./content/images/${id}.jpg)`);            
+            $("#cartaVirada").val(id);
+        }
+    });   
+
+</script>
+
+</html>

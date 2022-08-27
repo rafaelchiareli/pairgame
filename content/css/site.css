@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #005581;    
+
+}
+
+.areaCentral{
+    position: relative;
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #018abd;
+    width: 80vw;
+    height: 80vh;
+    border-radius: 10px;
+}
+
+.carta {
+    background-color: #97cbdc;
+    width: 150px;
+    height: 180px;
+   
+    margin-left: 10px;   
+    margin-right: 10px;
+       border-radius: 10px; 
+    
+}
+
+
+
+
