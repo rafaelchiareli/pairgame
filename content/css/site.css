@@ -3,9 +3,20 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #005581;    
+    flex-direction: column;
 
 }
 
+.countdown{
+    font-size: 1.4rem;
+}
+
+.jogador{
+    display: flex;
+    font-size: 1.4rem;
+    padding: 10px;
+    
+}
 .areaCentral{
     position: relative;
     margin-top: 50px;
@@ -22,13 +33,28 @@ body {
 .carta {
     background-color: #97cbdc;
     width: 150px;
-    height: 180px;
+    height: 180px;   
+    
+    border-radius: 10px;     
+    margin: 10px;
+}
+
+.cartaCerta{
+    border: solid 2px;
+    border-color: yellow;       
+}
+
+@media(max-width:1120px){
+    .areaCentral{
+        height: 90%;
+        padding: 5px;
+    }
    
-    margin-left: 10px;   
-    margin-right: 10px;
-       border-radius: 10px; 
     
 }
+
+
+
 
 
 

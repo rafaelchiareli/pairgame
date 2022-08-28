@@ -12,12 +12,25 @@
 
 <body>
     <input type="hidden" id="cartaVirada" />
+    <input type="hidden" id="idCartaVirada" />
+
+   <div class="joador">
+    <label>Um simples jogo da memória</label>
+
+   </div>
+
+ 
     <div class="areaCentral" id="areaCentral">
 
     </div>
 
 </body>
 <script type="text/javascript">
+
+    var total = 0;
+
+
+   
     $(document).ready(function () {
         var cards = $(".carta");
         for (var i = 0; i < cards.length; i++) {
@@ -28,10 +41,19 @@
     });
 
     var cont = 1;
-    for (var i = 1; i <= 14; i++) {
-        $('#areaCentral').append(`<div data-id=${cont} id="${i}"class="carta" style="background-image: url(./content/images/question.svg);background-size: 150px 180px;"></div>`);
-        if (i % 2 == 0) {
-            cont = cont + 1;
+        for (var i = 1; i <= 14; i++) {
+            $('#areaCentral').append(`<div data-id=${cont} id="${i}"class="carta errada" style="background-image: url(./content/images/question.svg);background-size: 150px 180px;"></div>`);
+            if (i % 2 == 0) {
+                cont = cont + 1;
+            }
+        };
+
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds) {
+                break;
+            }
         }
     };
     function sortDivs() {
@@ -44,19 +66,83 @@
         });
     }
 
-    $(".carta").on("click", function () {
-        var id = $(this).attr('data-id');
-        if ($(this).hasClass("virada")) {
-            $(this).removeClass('virada');
-            $(this).css('background-image', 'url(./content/images/question.svg)');
-            $("#cartaVirada").val("");
+    function viraCartas(id, dataId) {
+
+        if ($(`#${id}`).hasClass("errada")) {
+            if ($(`#${id}`).hasClass("virada")) {
+                $(`#${id}`).removeClass('virada');
+                $(`#${id}`).css('background-image', 'url(./content/images/question.svg)');
+                $("#cartaVirada").val("");
+                $("#idCartaVirada").val("");
+            }
+            else {
+
+                $(`#${id}`).addClass('virada');
+                $(`#${id}`).css('background-image', `url(./content/images/${dataId}.jpg)`);
+                if ($("#cartaVirada").val() == "") {
+                    $("#cartaVirada").val(dataId);
+                    $("#idCartaVirada").val(id);
+                }
+
+            }
         }
-        else {
-            $(this).addClass('virada');
-            $(this).css('background-image', `url(./content/images/${id}.jpg)`);            
-            $("#cartaVirada").val(id);
+
+    }
+
+    function desvira() {
+
+        $("#areaCentral").find(".virada").css('background-image', 'url(./content/images/question.svg)');
+        $("#areaCentral").find(".virada").removeClass('virada');
+
+    }
+
+    function verificaFimJogo() {
+        if (total == 7) {
+           
+            alert('Fim de Jogo');
         }
-    });   
+    }
+
+    $(".errada").on("click", function () {
+        viraCartas($(this).attr('id'), $(this).attr('data-id'));
+        if ($("#cartaVirada").val() != "" && $("#idCartaVirada").val() != $(this).attr('id')) {
+
+            if ($(this).attr('data-id') == $("#cartaVirada").val()) {
+                $(this).addClass('cartaCerta');
+                var id = $("#idCartaVirada").val(); 1
+                $(this).addClass('cartaCerta');
+                $(`#${id}`).addClass('cartaCerta');
+                $(`#${id}`).removeClass('errada');
+                $(this).removeClass('errada');
+                $(this).removeClass('virada');
+                $(`#${id}`).removeClass('virada');
+                $("#cartaVirada").val("");
+                $("#idCartaVirada").val("");
+                total += 1;
+                console.log(total);
+                verificaFimJogo();
+
+
+
+            }
+            else {
+                $("#acertou").val("nao");
+
+                $("#cartaVirada").val("");
+                $("#idCartaVirada").val("");
+                $(this).click(false);
+                $(this).mouseleave(function () {
+                    if ($("#cartaVirada").val() == "") {
+                        desvira();
+                    }
+                });
+            }
+        }
+    });
+
+
+  
+
 
 </script>
 
